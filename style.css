@@ -2,6 +2,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 .block {
     display: flex;
@@ -19,6 +20,13 @@
     justify-content: space-between;
     text-align: start;
     width: 120px;
+  }
+  .block__input__container .block__input_value{
+    border: .1rem solid black;
+    border-radius: 2rem;
+    width: 2.5rem;
+    height: 1.6rem;
+    text-align: center;
   }
   .block__input__container p{
     margin-left: 15px;
@@ -79,6 +87,7 @@
   .block-progress {
     display: flex;
   }
+  
   .block__input__container {
     display: flex;
     gap: 10px;
