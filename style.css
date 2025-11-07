@@ -16,13 +16,21 @@
   }
   .block__input__container {
     display: flex;
-    gap: 10px;
+    justify-content: space-between;
+    text-align: start;
+    width: 120px;
+  }
+  .block__input__container p{
+    margin-left: 15px;
+    text-align: left;
+    min-width: 50px;
   }
   .block_toggle {
     display: inline-block;
     position: relative;
     width: 2.5rem;
     height: 1.6rem;
+    margin-right: auto;
   }
   .block__input {
     opacity: 0;
