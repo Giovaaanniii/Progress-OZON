@@ -1,48 +1,28 @@
 class ProgressRing {
-  constructor(ringElement, inputElement, animateToggleElement, hideToggleElement, containerElement) {
+  constructor(ringElement) {
     this.progressRing = ringElement;
-    this.valueInput = inputElement;
-    this.animateToggle = animateToggleElement;
-    this.hideToggle = hideToggleElement;
-    this.progressContainer = containerElement;
-
-    this.valueInput.addEventListener("input", () => {
-      const value = parseFloat(this.valueInput.value) || 0;
-      this.updateProgress(value);
-    });
-
-    this.animateToggle.addEventListener("change", () => {
-      this.toggleAnimation(this.animateToggle.checked);
-    });
-
-    this.hideToggle.addEventListener("change", () => {
-      this.toggleVisibility(this.hideToggle.checked);
-    });
-
     this.updateProgress(0);
   }
 
   updateProgress(value) {
-    const numValue = value;
-    if (value === "" || value === "-" || isNaN(numValue) || numValue < 0 || numValue > 100) {
-      alert("число должно быть от 0 до 100");
-      this.valueInput.value = 0;
-      this.progressRing.style.background = `
-        conic-gradient(
-          rgb(0, 76, 255) 0deg 0deg,
-          #e0e0e0 0deg 360deg
-        )
-      `;
-      return;
+    const numValue = parseFloat(value);
+
+    if (isNaN(numValue) || numValue < 0 || numValue > 100) {
+      console.error("Progress value must be between 0 and 100");
+      return false;
     }
+
     const progressValue = Math.min(100, Math.max(0, numValue));
     const degrees = (progressValue / 100) * 360;
+
     this.progressRing.style.background = `
       conic-gradient(
         rgb(0, 76, 255) 0deg ${degrees}deg,
         #e0e0e0 ${degrees}deg 360deg
       )
     `;
+
+    return true;
   }
 
   toggleAnimation(isAnimated) {
@@ -54,21 +34,34 @@ class ProgressRing {
   }
 
   toggleVisibility(isHidden) {
-    if (isHidden) {
-      this.progressContainer.classList.add("hidden");
-    } else {
-      this.progressContainer.classList.remove("hidden");
+    const container = this.progressRing.closest(".block-progress");
+    if (container) {
+      if (isHidden) {
+        container.classList.add("hidden");
+      } else {
+        container.classList.remove("hidden");
+      }
     }
   }
 }
 
-const progressRing = new ProgressRing(
-  document.getElementById("progressRing"),
-  document.getElementById("valueInput"),
-  document.getElementById("animateToggle"),
-  document.getElementById("hideToggle"),
-  document.getElementById("progressContainer")
-);
+const progressRing = new ProgressRing(document.getElementById("progressRing"));
+
+document.getElementById("valueInput").addEventListener("input", (e) => {
+  const value = parseFloat(e.target.value) || 0;
+  if (!progressRing.updateProgress(value)) {
+    e.target.value = 0;
+    alert("число должно быть от 0 до 100");
+  }
+});
+
+document.getElementById("animateToggle").addEventListener("change", (e) => {
+  progressRing.toggleAnimation(e.target.checked);
+});
+
+document.getElementById("hideToggle").addEventListener("change", (e) => {
+  progressRing.toggleVisibility(e.target.checked);
+});
 
 window.ProgressAPI = {
   setValue: (value) => progressRing.updateProgress(value),
