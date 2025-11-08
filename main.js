@@ -5,7 +5,19 @@ const hideToggle = document.getElementById("hideToggle");
 const progressContainer = document.getElementById("progressContainer");
 
 function updateProgress(value) {
-  const progressValue = Math.min(100, Math.max(0, value));
+    const numValue = value
+   if (value === "" || value === "-" || isNaN(numValue) || numValue < 0 || numValue > 100) {
+    alert("число должно быть от 0 до 100");
+    valueInput.value = 0;
+    progressRing.style.background = `
+      conic-gradient(
+        rgb(0, 76, 255) 0deg 0deg,
+        #e0e0e0 0deg 360deg
+      )
+    `;
+    return;
+  }
+  const progressValue = Math.min(100, Math.max(0, numValue));
   const degrees = (progressValue / 100) * 360;
   progressRing.style.background = `
     conic-gradient(

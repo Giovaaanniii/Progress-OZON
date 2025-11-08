@@ -8,14 +8,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
   height: 100vh;
   gap: 5px;
 }
-.block-progress {
+.block__controls{
   display: flex;
-  margin-bottom: 100px;
+  flex-direction: column;
+  gap: 8px;
 }
+
 .block-progress.hidden {
   display: none;
 }
@@ -112,6 +113,7 @@
   transform: translateX(1.1rem);
 }
 @media (orientation: portrait) {
+  
   .block {
     display: flex;
     justify-content: center;
@@ -121,7 +123,7 @@
     gap: 5px;
   }
   .block-progress {
-    display: flex;
+    margin-bottom: 70px;
   }
 
   .block__input__container {
@@ -168,5 +170,17 @@
   .block__input:checked + .move::before {
     background-color: rgb(255, 255, 255);
     transform: translateX(1.1rem);
+  }
+}
+@media (orientation: landscape){
+  .block-progress{
+    display: flex;
+    margin-right: 70px;
+  }
+  
+  .block__controls{
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
   }
 }
