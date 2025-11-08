@@ -1,64 +1,77 @@
-const progressRing = document.getElementById("progressRing");
-const valueInput = document.getElementById("valueInput");
-const animateToggle = document.getElementById("animateToggle");
-const hideToggle = document.getElementById("hideToggle");
-const progressContainer = document.getElementById("progressContainer");
+class ProgressRing {
+  constructor(containerElement) {
+    this.progressRing = ringElement;
+    this.valueInput = inputElement;
+    this.animateToggle = animateToggleElement;
+    this.hideToggle = hideToggleElement;
+    this.progressContainer = containerElement;
 
-function updateProgress(value) {
-    const numValue = value
-   if (value === "" || value === "-" || isNaN(numValue) || numValue < 0 || numValue > 100) {
-    alert("число должно быть от 0 до 100");
-    valueInput.value = 0;
-    progressRing.style.background = `
+    this.valueInput.addEventListener("input", () => {
+      const value = parseFloat(this.valueInput.value) || 0;
+      this.updateProgress(value);
+    });
+
+    this.animateToggle.addEventListener("change", () => {
+      this.toggleAnimation(this.animateToggle.checked);
+    });
+
+    this.hideToggle.addEventListener("change", () => {
+      this.toggleVisibility(this.hideToggle.checked);
+    });
+
+    this.updateProgress(0);
+  }
+
+  updateProgress(value) {
+    const numValue = value;
+    if (value === "" || value === "-" || isNaN(numValue) || numValue < 0 || numValue > 100) {
+      alert("число должно быть от 0 до 100");
+      this.valueInput.value = 0;
+      this.progressRing.style.background = `
+        conic-gradient(
+          rgb(0, 76, 255) 0deg 0deg,
+          #e0e0e0 0deg 360deg
+        )
+      `;
+      return;
+    }
+    const progressValue = Math.min(100, Math.max(0, numValue));
+    const degrees = (progressValue / 100) * 360;
+    this.progressRing.style.background = `
       conic-gradient(
-        rgb(0, 76, 255) 0deg 0deg,
-        #e0e0e0 0deg 360deg
+        rgb(0, 76, 255) 0deg ${degrees}deg,
+        #e0e0e0 ${degrees}deg 360deg
       )
     `;
-    return;
   }
-  const progressValue = Math.min(100, Math.max(0, numValue));
-  const degrees = (progressValue / 100) * 360;
-  progressRing.style.background = `
-    conic-gradient(
-      rgb(0, 76, 255) 0deg ${degrees}deg,
-      #e0e0e0 ${degrees}deg 360deg
-    )
-  `;
-}
-function toggleAnimation(isAnimated) {
-  if (isAnimated) {
-    progressRing.classList.add("animated");
-  } else {
-    progressRing.classList.remove("animated");
-  }
-}
 
-function toggleVisibility(isHidden) {
-  if (isHidden) {
-    progressContainer.classList.add("hidden");
-  } else {
-    progressContainer.classList.remove("hidden");
+  toggleAnimation(isAnimated) {
+    if (isAnimated) {
+      this.progressRing.classList.add("animated");
+    } else {
+      this.progressRing.classList.remove("animated");
+    }
+  }
+
+  toggleVisibility(isHidden) {
+    if (isHidden) {
+      this.progressContainer.classList.add("hidden");
+    } else {
+      this.progressContainer.classList.remove("hidden");
+    }
   }
 }
 
-valueInput.addEventListener("input", function () {
-  const value = parseFloat(this.value) || 0;
-  updateProgress(value);
-});
-
-animateToggle.addEventListener("change", function () {
-  toggleAnimation(this.checked);
-});
-
-hideToggle.addEventListener("change", function () {
-  toggleVisibility(this.checked);
-});
-
-updateProgress(0);
+const progressRing = new ProgressRing(
+  document.getElementById("progressRing"),
+  document.getElementById("valueInput"),
+  document.getElementById("animateToggle"),
+  document.getElementById("hideToggle"),
+  document.getElementById("progressContainer")
+);
 
 window.ProgressAPI = {
-  setValue: updateProgress,
-  setAnimation: toggleAnimation,
-  setVisibility: toggleVisibility,
+  setValue: (value) => progressRing.updateProgress(value),
+  setAnimation: (isAnimated) => progressRing.toggleAnimation(isAnimated),
+  setVisibility: (isHidden) => progressRing.toggleVisibility(isHidden),
 };
