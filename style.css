@@ -19,12 +19,13 @@
 .outer-block-progress {
   width: 150px;
   height: 150px;
-  background-color: rgb(0, 76, 255);
+  border: 15px solid #e0e0e0;
   border-radius: 100%;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: transform 0.3s ease;
 }
 
 .inner-block-progress {
