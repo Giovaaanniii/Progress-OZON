@@ -43,7 +43,7 @@ function toggleVisibility(isHidden) {
 }
 
 valueInput.addEventListener("input", function () {
-  const value = parseInt(this.value) || 0;
+  const value = parseFloat(this.value) || 0;
   updateProgress(value);
 });
 
