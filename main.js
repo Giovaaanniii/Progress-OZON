@@ -1,5 +1,5 @@
 class ProgressRing {
-  constructor(containerElement) {
+  constructor(ringElement, inputElement, animateToggleElement, hideToggleElement, containerElement) {
     this.progressRing = ringElement;
     this.valueInput = inputElement;
     this.animateToggle = animateToggleElement;
