@@ -16,16 +16,33 @@
   display: flex;
   margin-bottom: 100px;
 }
+.block-progress.hidden {
+  display: none;
+}
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 .outer-block-progress {
   width: 150px;
   height: 150px;
-  border: 15px solid #e0e0e0;
-  border-radius: 100%;
-  position: relative;
+  border-radius: 50%;
+  background: conic-gradient(
+    rgb(0, 76, 255) 0deg var(--progress, 0deg),
+    #e0e0e0 var(--progress, 0deg) 360deg
+  );
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: transform 0.3s ease;
+  transition: background 0.3s;
+  transform: rotate(0deg);
+}
+.outer-block-progress.animated {
+  animation: rotate 2s linear infinite;
 }
 
 .inner-block-progress {
